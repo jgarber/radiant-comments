@@ -116,9 +116,13 @@ class Comment < ActiveRecord::Base
   private
   
     def validate_spam_answer
-      unless passes_simple_spam_filter?
+      if simple_spam_filter_enabled? && !passes_simple_spam_filter?
         self.errors.add :spam_answer, "is not correct."
       end
+    end
+    
+    def simple_spam_filter_enabled?
+      Radiant::Config['comments.require_simple_spam_filter'] == 'true'
     end
     
     def passes_simple_spam_filter?
