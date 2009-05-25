@@ -160,7 +160,7 @@ module CommentTags
       <r:comments:field:rating_full_star>*</r:comments:field:rating_full_star>
   }
   tag 'comments:field:rating_full_star' do |tag|
-    rating = tag.locals.comment.rating || 0
+    rating = tag.locals.comment.rating || Comment::MIN_RATING
     markup = ''
     rating.times { markup << tag.expand }
     (Comment::MAX_RATING - rating).times { markup << @empty_star.to_s }
@@ -302,7 +302,10 @@ module CommentTags
   
   desc %{Builds a rating input tag}
   tag 'comments:ratings_tag' do |tag|
-    
+    <<-HTML
+    <input type="range" min="#{Comment::MIN_RATING}" max="#{Comment::MAX_RATING}"
+    name="comment[rating]" id="comment_rating" />
+    HTML
   end
   
 
