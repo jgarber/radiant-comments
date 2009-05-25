@@ -3,7 +3,8 @@ class Comment < ActiveRecord::Base
   
   validate :validate_spam_answer
   validates_presence_of :author, :author_email, :content, :page
-  validates_inclusion_of :rating, :in => 0..5
+  MAX_RATING = 5
+  validates_inclusion_of :rating, :in => 0..MAX_RATING
   
   before_save :auto_approve
   before_save :apply_filter

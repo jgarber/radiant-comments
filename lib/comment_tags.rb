@@ -141,6 +141,31 @@ module CommentTags
   tag "comments:field:if_approved" do |tag|
     tag.expand if tag.locals.comment.approved?
   end
+  
+  desc %{
+    Renders the containing markup for each score of the rating
+    
+    Example:
+      <r:comments:field:rating_empty_star>*</r:comments:field:rating_empty_star>
+  }
+  tag 'comments:field:rating_empty_star' do |tag|
+    @empty_star = tag.expand
+    ''
+  end
+  
+  desc %{
+    Renders the containing markup for each score of the rating
+    
+    Example:
+      <r:comments:field:rating_full_star>*</r:comments:field:rating_full_star>
+  }
+  tag 'comments:field:rating_full_star' do |tag|
+    rating = tag.locals.comment.rating || 0
+    markup = ''
+    rating.times { markup << tag.expand }
+    (Comment::MAX_RATING - rating).times { markup << @empty_star.to_s }
+    markup
+  end
 
   desc %{
     Renders the contained elements if the comment has not been approved
@@ -222,7 +247,7 @@ module CommentTags
       r << %{ />}
     end
   end
-
+  
   %w(submit reset).each do |type|
     desc %{Builds a #{type} form button for comments.}
     tag "comments:#{type}_tag" do |tag|
@@ -274,6 +299,12 @@ module CommentTags
 
     r << %{</select>}
   end
+  
+  desc %{Builds a rating input tag}
+  tag 'comments:ratings_tag' do |tag|
+    
+  end
+  
 
   desc %{Prints the number of comments. }
   tag "comments:count" do |tag|
