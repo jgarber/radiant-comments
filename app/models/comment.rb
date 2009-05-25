@@ -2,14 +2,15 @@ class Comment < ActiveRecord::Base
   belongs_to :page, :counter_cache => true
   
   validate :validate_spam_answer
-  validates_presence_of :author, :author_email, :content
+  validates_presence_of :author, :author_email, :content, :page
+  validates_inclusion_of :rating, :in => 0..5
   
   before_save :auto_approve
   before_save :apply_filter
   after_save  :save_mollom_servers
     
   attr_accessor :valid_spam_answer, :spam_answer
-  attr_accessible :author, :author_email, :author_url, :filter_id, :content, :valid_spam_answer, :spam_answer
+  attr_accessible :author, :author_email, :author_url, :filter_id, :content, :rating, :valid_spam_answer, :spam_answer
   
   def self.per_page
     50
