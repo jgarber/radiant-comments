@@ -299,21 +299,30 @@ module CommentTags
 
     r << %{</select>}
   end
-  
-  desc %{Builds a rating input tag}
+
+
+  desc %{Builds a series of input tags to input a rating
+    
+    *Usage:*
+    <pre><code><r:comments:ratings_tag [class="myclass"] [disabled="disabled"] /></code></pre>
+  }
   tag 'comments:ratings_tag' do |tag|
-    <<-HTML
-    <input type="range" min="#{Comment::MIN_RATING}" max="#{Comment::MAX_RATING}"
-    name="comment[rating]" id="comment_rating" />
-    HTML
+    module TagCreator
+      # Hack, simply including modules in CommentTags didn't work
+      extend ActionView::Helpers::TagHelper
+      extend ActionView::Helpers::FormTagHelper
+    end
+    returning '' do |markup|
+      (Comment::MIN_RATING...Comment::MAX_RATING).each do |rating|
+        markup << TagCreator.radio_button_tag('comment[rating]', rating+1, false, tag.attr)
+      end
+    end
   end
   
-
   desc %{Prints the number of comments. }
   tag "comments:count" do |tag|
     tag.locals.page.approved_comments.count
   end
-  
   
   tag "recent_comments" do |tag|
     tag.expand
