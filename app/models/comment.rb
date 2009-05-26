@@ -5,7 +5,7 @@ class Comment < ActiveRecord::Base
   validates_presence_of :author, :author_email, :content, :page
   MIN_RATING = 0
   MAX_RATING = 5
-  validates_inclusion_of :rating, :in => MIN_RATING..MAX_RATING
+  validates_inclusion_of :rating, :in => MIN_RATING..MAX_RATING, :allow_blank => true
   
   before_save :auto_approve
   before_save :apply_filter
