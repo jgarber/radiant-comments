@@ -1,3 +1,9 @@
 class AddRatings < ActiveRecord::Migration
-  add_column :comments, :rating, :integer
+  def self.up
+    add_column :comments, :rating, :integer
+  end
+
+  def self.down
+    remove_column :comments, :rating
+  end
 end
