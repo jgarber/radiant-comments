@@ -1,7 +1,7 @@
 class Comment < ActiveRecord::Base
   belongs_to :page, :counter_cache => true
   
-  validate :validate_spam_answer
+  # validate :validate_spam_answer
   validates_presence_of :author, :author_email, :content, :page
   MIN_RATING = 0
   MAX_RATING = 5

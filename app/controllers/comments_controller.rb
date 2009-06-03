@@ -25,12 +25,8 @@ class CommentsController < ApplicationController
     end
     
     flash[:selected_comment] = comment.id
-    redirect_to "#{@page.url}comments#comment-#{comment.id}"
-  rescue ActiveRecord::RecordInvalid
-    @page.last_comment = comment
-    render :text => @page.render
- # rescue Comments::MollomUnsure
-    #flash, en render :text => @page.render
+  ensure
+    redirect_to comment.referrer
   end
   
   private
