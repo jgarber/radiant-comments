@@ -1,9 +1,9 @@
 <h1>
   <% if @page.nil? %>
-    <%= "#{params[:status].titleize if params[:status]} Comments | 
+    <%= "#{params[:status].titleize if params[:status]} Reviews | 
         #{link_to('Download CSV', {:format => 'csv', :status => params[:status]})}" %>
   <% else %>
-    <%= "#{@page.comments_count} #{pluralize(@page.comments_count, "Comment")} on 
+    <%= "#{@page.comments_count} #{pluralize(@page.comments_count, "Review")} on 
          #{link_to(@page.title, page_edit_url(@page.id))}| 
          #{link_to('Download CSV', {:format => 'csv', :status => params[:status], :page_id => @page.id})}
          " %>
@@ -12,9 +12,9 @@
 
 <p class="comment-nav">
   View: 
-  <%= content_tag :span, link_to_unless_current("All Comments", :status => "all", :page_id => params[:page_id]) %> 
-  <%= content_tag :span, link_to_unless_current("Approved Comments", :status => "approved", :page_id => params[:page_id]) %> 
-  <%= content_tag :span, link_to_unless_current("Unapproved Comments", :status => "unapproved", :page_id => params[:page_id]) %>
+  <%= content_tag :span, link_to_unless_current("All Reviews", :status => "all", :page_id => params[:page_id]) %> 
+  <%= content_tag :span, link_to_unless_current("Approved Reviews", :status => "approved", :page_id => params[:page_id]) %> 
+  <%= content_tag :span, link_to_unless_current("Unapproved Reviews", :status => "unapproved", :page_id => params[:page_id]) %>
 </p>
 
 <table id="comments" class="index" border="0" cellspacing="0" cellpadding="0">
@@ -27,13 +27,13 @@
 
 <%= will_paginate @comments %>
 
-<% if Comment.new.akismet.valid? %>
+<!-- <% if Comment.new.akismet.valid? %>
   <small class="notice">Protected by <a href="http://akismet.com/">Akismet</a></small>
 <% elsif Comment.new.mollom.key_ok? %>
   <small class="notice">Protected by <a href="http://mollom.com">Mollom</a></small>
 <% elsif current_user.developer? %>
   <small class="note">You have 3 built-in options for spam protection although currently comments are not automatically protected. Install <a href="http://mollom.com">Mollom</a> or <a href="http://akismet.com/">Akismet</a> to protect against comment spam through an external service, or use the &lt;r:comments:spam_answer_tag /&gt;. Instructions may be found in the README.</small>
-<% end %>
+<% end %> -->
 
 <script type="text/javascript">
 // <![CDATA[
