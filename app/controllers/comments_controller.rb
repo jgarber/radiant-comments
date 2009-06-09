@@ -12,6 +12,7 @@ class CommentsController < ApplicationController
   end
   
   def create
+    render :text => @page.render and return if request.get?
     comment = @page.comments.build(params[:comment])
     comment.request = request
     comment.request = @page.request = request
@@ -24,9 +25,9 @@ class CommentsController < ApplicationController
       end
     end
     
-    flash[:selected_comment] = comment.id
+    @page.selected_comment = flash[:selected_comment] = comment.id
   ensure
-    redirect_to comment.referrer
+    render :text => @page.render
   end
   
   private
