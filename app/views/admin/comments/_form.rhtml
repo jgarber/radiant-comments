@@ -3,39 +3,29 @@
   <table border="0">
     
     <tr>
-      <th><label for="comment_author">Comment Author Name</label></th>
+      <th><label for="comment_author">Author</label></th>
       <td><%= f.text_field :author, :class => "regular" %></td>
     </tr>
 
     <tr>
-      <th><label for="comment_author_url">Comment Author URL</label></th>
-      <td><%= f.text_field :author_url, :class => "regular" %></td>
+      <th><label for="comment_author_email">Title</label></th>
+      <td><%= f.text_field :author_email, :class => "regular" %></td>
     </tr>
 
     <tr>
-      <th><label for="comment_author_email">Comment Author Email</label></th>
-      <td><%= f.text_field :author_email, :class => "regular" %></td>
+      <th><label for="comment_author_email">Rating</label></th>
+      <td><%= f.text_field :rating, :class => "regular" %></td>
     </tr>
+
     
     <tr>
-      <th><label for="comment">Comment</label></th>
+      <th><label for="comment">Review</label></th>
       <td><%= f.text_area :content, :rows => 10, :class => "regular" %></td>
-    </tr>
-    
-    <tr>
-      <th>
-        <label for="comment_filter_id">Filter</label>
-      </th>
-      <td>
-        <%= f.select :filter_id, [['<none>', '']] + TextFilter.descendants.map { |s| s.filter_name }.sort %>
-        
-        
-      </td>
     </tr>
     
   </table>  
   
-  <%= submit_tag("Save comment", :class => "button", :id => "comment_submit_button") %> 
+  <%= submit_tag("Save review", :class => "button", :id => "comment_submit_button") %> 
   
   <%= f.hidden_field :page_id %>
   
