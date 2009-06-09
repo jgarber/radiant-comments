@@ -85,7 +85,7 @@ module CommentTags
     tag.locals.index + 1
   end
   
-  %w(id author author_email author_url content content_html filter_id).each do |field|
+  %w(id author author_email author_url content content_html filter_id rating).each do |field|
     desc %{ Print the value of the #{field} field for this comment. }
     tag "comments:field:#{field}" do |tag|
       options = tag.attr.dup
