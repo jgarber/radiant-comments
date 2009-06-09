@@ -61,7 +61,6 @@ module CommentTags
   tag "comments:each" do |tag|
     page = tag.locals.page
     comments = page.approved_comments.to_a
-    comments << page.selected_comment if page.selected_comment && page.selected_comment.unapproved?
     result = []
     comments.each_with_index do |comment, index|
       tag.locals.comment = comment
