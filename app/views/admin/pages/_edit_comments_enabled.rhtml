@@ -1,5 +1,2 @@
-<p style="clear:left">
-  <small>
-    <%= link_to "Currently #{@page.comments_count} &mdash; View Reviews", admin_page_comments_path(:page_id => @page.id) unless @page.new_record? or @page.comments_count < 1 %>
-  </small>
-</p>
+<% @stylesheets << 'admin/reviews' %>
+<%= render :partial => "comments" %>

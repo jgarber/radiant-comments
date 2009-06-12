@@ -1,0 +1,2 @@
+page.replace 'comments', :partial => 'admin/pages/comments'
+page.visual_effect :highlight, "comments"

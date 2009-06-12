@@ -51,7 +51,7 @@ module CommentTags
     Gives access to comment-related tags
   }
   tag "comments" do |tag|
-    comments = tag.locals.page.approved_comments
+    comments = tag.locals.page.approved_ordered_comments
     tag.expand
   end
 
@@ -60,7 +60,7 @@ module CommentTags
   }
   tag "comments:each" do |tag|
     page = tag.locals.page
-    comments = page.approved_comments.to_a
+    comments = page.approved_ordered_comments.to_a
     result = []
     comments.each_with_index do |comment, index|
       tag.locals.comment = comment

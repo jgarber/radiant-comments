@@ -13,7 +13,7 @@ class CommentsExtension < Radiant::Extension
       comments.connect 'admin/pages/:page_id/comments/:status.:format'
       comments.connect 'admin/pages/:page_id/comments/all.:format'
       
-      comments.resources :comments, :path_prefix => "/admin", :name_prefix => "admin_", :member => {:approve => :get, :unapprove => :get}
+      comments.resources :comments, :path_prefix => "/admin", :name_prefix => "admin_", :member => {:approve => :get, :unapprove => :get, :sort => :put}
       comments.admin_page_comments 'admin/pages/:page_id/comments/:action'
       comments.admin_page_comment 'admin/pages/:page_id/comments/:id/:action'
     end
@@ -27,6 +27,8 @@ class CommentsExtension < Radiant::Extension
     
     Page.class_eval do
       has_many :comments, :dependent => :destroy, :order => "created_at ASC"
+      has_many :ordered_comments, :class_name => "Comment", :order => "position ASC"
+      has_many :approved_ordered_comments, :class_name => "Comment", :conditions => "comments.approved_at IS NOT NULL", :order => "position ASC"
       has_many :approved_comments, :class_name => "Comment", :conditions => "comments.approved_at IS NOT NULL", :order => "created_at ASC"
       has_many :unapproved_comments, :class_name => "Comment", :conditions => "comments.approved_at IS NULL", :order => "created_at ASC"
       attr_accessor :last_comment

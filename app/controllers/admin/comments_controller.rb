@@ -58,6 +58,19 @@ class Admin::CommentsController < ApplicationController
     end
   end
 
+  # PUT /comments/1/sort.js
+  def sort
+    @comment = Comment.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless %w(move_higher move_lower).include?(params[:how])
+    @comment.send(params[:how])
+    logger.info { "SORT #{params[:how]}" }
+    @page = @comment.page
+    ResponseCache.instance.clear
+    respond_to do |format|
+      format.js
+    end
+  end
+
   def enable
     @page = Page.find(params[:page_id])
     @page.enable_comments = 1

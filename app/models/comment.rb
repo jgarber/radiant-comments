@@ -1,6 +1,8 @@
 class Comment < ActiveRecord::Base
   belongs_to :page, :counter_cache => true
-  
+
+  acts_as_list :scope => 'page_id = #{page_id} AND approved = 1'
+
   # validate :validate_spam_answer
   validates_presence_of :author, :author_email, :content, :page
   MIN_RATING = 0
@@ -45,6 +47,8 @@ class Comment < ActiveRecord::Base
   # If the Akismet details are valid, and Akismet thinks this is a non-spam
   # comment, this method will return true
   def auto_approve?
+    #override
+    return false
     if passes_simple_spam_filter?
       true
     elsif akismet.valid?
@@ -82,10 +86,6 @@ class Comment < ActiveRecord::Base
     !approved?
   end
   
-  def approved?
-    !approved_at.nil?
-  end
-  
   def ap_status
     if approved?
       "approved"
@@ -93,13 +93,20 @@ class Comment < ActiveRecord::Base
       "unapproved"
     end
   end
-  
+
+  def approve
+    self.approved = true
+    self.approved_at = Time.now
+  end
+
   def approve!
+    self.update_attribute(:approved, true)
     self.update_attribute(:approved_at, Time.now)
   end
   
   def unapprove!
     self.update_attribute(:approved_at, nil)
+    self.update_attribute(:approved, false)
     # if we have to unapprove, and use mollom, it means
     # the initial check was false. Submit this to mollom as Spam.
     # Ideally, we'd need a different feedback for
@@ -133,7 +140,7 @@ class Comment < ActiveRecord::Base
     end
 
     def auto_approve
-      self.approved_at = Time.now if auto_approve?
+      approve if auto_approve?
     end
     
     def apply_filter
