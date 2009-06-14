@@ -97,16 +97,21 @@ class Comment < ActiveRecord::Base
   def approve
     self.approved = true
     self.approved_at = Time.now
+    add_to_list_bottom_if_scope_changed
   end
 
   def approve!
     self.update_attribute(:approved, true)
     self.update_attribute(:approved_at, Time.now)
+    add_to_list_bottom_if_scope_changed
+    save!
   end
   
   def unapprove!
     self.update_attribute(:approved_at, nil)
     self.update_attribute(:approved, false)
+    add_to_list_bottom_if_scope_changed
+    save!
     # if we have to unapprove, and use mollom, it means
     # the initial check was false. Submit this to mollom as Spam.
     # Ideally, we'd need a different feedback for
@@ -114,13 +119,13 @@ class Comment < ActiveRecord::Base
     #  - profanity
     #  - unwanted
     #  - low-quality
-     begin
-     if mollom.key_ok? and !self.mollom_id.empty?
-        mollom.send_feedback :session_id => self.mollom_id, :feedback => 'spam'
-      end
-    rescue Mollom::Error => e
-      raise Comment::AntispamWarning.new(e.to_s)
-    end
+    #  begin
+    #  if mollom.key_ok? and !self.mollom_id.empty?
+    #     mollom.send_feedback :session_id => self.mollom_id, :feedback => 'spam'
+    #   end
+    # rescue Mollom::Error => e
+    #   raise Comment::AntispamWarning.new(e.to_s)
+    # end
   end
   
   private
