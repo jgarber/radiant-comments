@@ -1,7 +1,0 @@
-<td class="comment_link">
-  <% if page.respond_to?('enable_comments') %>
-  <small>
-    <%= link_to "#{page.comments_count} reviews", admin_page_comments_path(:page_id => page.id) %>
-  </small>
-  <% end %>
-</td>

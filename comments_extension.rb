@@ -42,7 +42,6 @@ class CommentsExtension < Radiant::Extension
     if admin.respond_to? :page
       admin.page.edit.add :parts_bottom, "edit_comments_enabled", :after => "edit_timestamp"
       admin.page.index.add :sitemap_head, "index_head_view_comments"
-      admin.page.index.add :node, "index_view_comments"
     end
     
     admin.tabs.add "Reviews", "/admin/comments/unapproved", :visibility => [:all]
