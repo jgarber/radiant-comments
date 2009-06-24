@@ -1,5 +1,5 @@
 class Comment < ActiveRecord::Base
-  belongs_to :page, :counter_cache => true
+  belongs_to :page
 
   acts_as_list :scope => 'page_id = #{page_id} AND approved = 1'
 

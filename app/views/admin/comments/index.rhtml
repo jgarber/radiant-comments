@@ -4,7 +4,7 @@
     <%= "#{params[:status].titleize if params[:status]} Reviews | 
         #{link_to('Download CSV', {:format => 'csv', :status => params[:status]})}" %>
   <% else %>
-    <%= "#{@page.comments_count} #{pluralize(@page.comments_count, "Review")} on 
+    <%= "#{@page.comments.count} #{pluralize(@page.comments.count, "Review")} on 
          #{link_to(@page.title, page_edit_url(@page.id))}| 
          #{link_to('Download CSV', {:format => 'csv', :status => params[:status], :page_id => @page.id})}
          " %>
