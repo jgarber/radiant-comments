@@ -97,20 +97,20 @@ class Comment < ActiveRecord::Base
   def approve
     self.approved = true
     self.approved_at = Time.now
-    add_to_list_bottom_if_scope_changed
+    add_to_list_bottom
   end
 
   def approve!
     self.update_attribute(:approved, true)
     self.update_attribute(:approved_at, Time.now)
-    add_to_list_bottom_if_scope_changed
+    add_to_list_bottom
     save!
   end
   
   def unapprove!
     self.update_attribute(:approved_at, nil)
     self.update_attribute(:approved, false)
-    add_to_list_bottom_if_scope_changed
+    add_to_list_bottom
     save!
     # if we have to unapprove, and use mollom, it means
     # the initial check was false. Submit this to mollom as Spam.
