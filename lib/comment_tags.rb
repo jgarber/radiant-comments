@@ -60,7 +60,9 @@ module CommentTags
   }
   tag "comments:each" do |tag|
     page = tag.locals.page
-    comments = page.approved_ordered_comments.to_a
+    limit = tag.attr['limit'] || 10
+    offset = tag.attr['offset'] || 0
+    comments = page.approved_ordered_comments.find(:all, :limit => limit, :offset => offset)
     result = []
     comments.each_with_index do |comment, index|
       tag.locals.comment = comment
