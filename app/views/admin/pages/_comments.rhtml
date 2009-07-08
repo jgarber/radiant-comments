@@ -1,3 +1,20 @@
+<% 
+def link_to_remote_with_spinner(title, options)
+  element_id = options.delete(:id) || ('link_to_' + title.underscore.tr(' ', '_'))
+  container_id = options.delete(:container_id) || element_id
+
+  returning '' do |out|
+    unless spinner = options.delete(:spinner)
+      spinner = "#{element_id}_spinner"
+      out << image_tag('admin/spinner.gif', :id => spinner, :style => 'display:none')
+    end
+    options[:complete] = "$('#{spinner}').hide(); " + (options[:complete] || "$('#{container_id}').show()")
+    options[:loading] = "$('#{spinner}').show(); " + (options[:loading] || "$('#{container_id}').hide()")
+
+    out << link_to_remote(title, options, { :id => element_id })
+  end
+end
+%>
 <table id="comments" class="index" border="0" cellspacing="0" cellpadding="0">
   <tbody>
     <%= render :partial => "admin/pages/comment", :collection => (@page.approved_ordered_comments) %>

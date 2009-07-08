@@ -13,8 +13,14 @@
   </td>
   <td class="controls right">
     <div class="nowrap">
-      <%= link_to_remote '&uarr;', :url => sort_admin_comment_path(comment, :how => 'move_higher'), :method => :put %>
-      <%= link_to_remote '&darr;', :url => sort_admin_comment_path(comment, :how => 'move_lower'), :method => :put %>
+      <%= link_to_remote_with_spinner '&uarr;',
+          :url => sort_admin_comment_path(comment, :how => 'move_higher'), 
+          :method => :put,
+          :id => "move_higher_#{comment.id}" %>
+      <%= link_to_remote_with_spinner '&darr;',
+          :url => sort_admin_comment_path(comment, :how => 'move_lower'),
+          :method => :put,
+          :id => "move_lower_#{comment.id}" %>
     </div>
   </td>
 </tr>
