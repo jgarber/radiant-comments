@@ -11,7 +11,7 @@ class Comment < ActiveRecord::Base
   
   before_save :auto_approve
   before_save :apply_filter
-  after_save  :save_mollom_servers
+  # after_save  :save_mollom_servers
     
   attr_accessor :valid_spam_answer, :spam_answer
   attr_accessible :author, :author_email, :author_url, :filter_id, :content, :rating, :valid_spam_answer, :spam_answer
