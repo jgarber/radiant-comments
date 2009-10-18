@@ -364,4 +364,14 @@ module CommentTags
       r << %{ />}
       r << %{<input type="hidden" name="comment[valid_spam_answer]" value="#{valid_spam_answer}" />}
   end
+  
+  desc %{
+    Show the contents if a comment was just selected
+    
+    *Usage*
+    <pre><code><r:comments:if_selected /></code></pre>
+  }
+  tag "comments:if_selected" do |tag|
+    tag.expand if tag.locals.page.selected_comment
+  end
 end
