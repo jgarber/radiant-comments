@@ -21,6 +21,7 @@
           :url => sort_admin_comment_path(comment, :how => 'move_lower'),
           :method => :put,
           :id => "move_lower_#{comment.id}" %>
+      <%= link_to "edit", edit_admin_comment_path(comment) %>
     </div>
   </td>
 </tr>
