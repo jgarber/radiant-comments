@@ -23,6 +23,17 @@
       <td><%= f.text_area :content, :rows => 10, :class => "regular" %></td>
     </tr>
     
+    <tr>
+      <th>
+        <label for="comment_filter_id">Filter</label>
+      </th>
+      <td>
+        <%= f.select :filter_id, [['<none>', '']] + TextFilter.descendants.map { |s| s.filter_name }.sort %>
+
+
+      </td>
+    </tr>
+    
   </table>  
   
   <%= submit_tag("Save review", :class => "button", :id => "comment_submit_button") %> 
