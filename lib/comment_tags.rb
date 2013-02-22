@@ -13,19 +13,19 @@ module CommentTags
   tag "if_comments_enabled" do |tag|
     tag.expand if (tag.locals.page.enable_comments?)
   end
-  
+
   desc %{
     Renders the contained elements unless comments are enabled on the page.
   }
   tag "unless_enable_comments" do |tag|
     tag.expand unless (tag.locals.page.enable_comments?)
   end
-  
+
   # makes more sense to me
   tag "unless_comments_enabled" do |tag|
     tag.expand unless (tag.locals.page.enable_comments?)
   end
-  
+
   desc %{
     Renders the contained elements if the page has comments.
   }
@@ -34,12 +34,12 @@ module CommentTags
   end
 
   desc %{
-    Renders the contained elements unless the page has comments. 
+    Renders the contained elements unless the page has comments.
   }
   tag "unless_comments" do |tag|
     tag.expand unless tag.locals.page.has_visible_comments?
   end
-  
+
   desc %{
     Renders the contained elements if the page has comments _or_ comment is enabled on it.
   }
@@ -78,14 +78,14 @@ module CommentTags
   tag "comments:field" do |tag|
     tag.expand
   end
-  
+
   desc %{
     Renders the index number for this comment.
   }
   tag 'comments:field:index' do |tag|
     tag.locals.index + 1
   end
-  
+
   %w(id author author_email author_url content content_html filter_id rating).each do |field|
     desc %{ Print the value of the #{field} field for this comment. }
     tag "comments:field:#{field}" do |tag|
@@ -142,10 +142,10 @@ module CommentTags
   tag "comments:field:if_approved" do |tag|
     tag.expand if tag.locals.comment.approved?
   end
-  
+
   desc %{
     Renders the containing markup for each score of the rating
-    
+
     Example:
       <r:comments:field:rating_empty_star>*</r:comments:field:rating_empty_star>
   }
@@ -153,10 +153,10 @@ module CommentTags
     @empty_star = tag.expand
     ''
   end
-  
+
   desc %{
     Renders the containing markup for each score of the rating
-    
+
     Example:
       <r:comments:field:rating_full_star>*</r:comments:field:rating_full_star>
   }
@@ -212,6 +212,8 @@ module CommentTags
       r << %{ id="#{html_id}" } unless html_id.blank?
       r << %{ class="#{html_class}" } unless html_class.blank?
     r << '>' #close the form element
+    r << %{<input type="hidden" name="comment[occupado]" value="4" />}
+    r << %{<input type="hidden" name="comment[miel]" value="" />}
     r <<  tag.expand
     r << %{</form>}
     r
@@ -248,7 +250,7 @@ module CommentTags
       r << %{ />}
     end
   end
-  
+
   %w(submit reset).each do |type|
     desc %{Builds a #{type} form button for comments.}
     tag "comments:#{type}_tag" do |tag|
@@ -303,7 +305,7 @@ module CommentTags
 
 
   desc %{Builds a series of input tags to input a rating
-    
+
     *Usage:*
     <pre><code><r:comments:ratings_tag [class="myclass"] [disabled="disabled"] /></code></pre>
   }
@@ -319,18 +321,18 @@ module CommentTags
       end
     end
   end
-  
+
   desc %{Prints the number of comments. }
   tag "comments:count" do |tag|
     tag.locals.page.approved_comments.count
   end
-  
+
   tag "recent_comments" do |tag|
     tag.expand
   end
-  
+
   desc %{Returns the last [limit] comments throughout the site.
-    
+
     *Usage:*
     <pre><code><r:recent_comments:each [limit="10"]>...</r:recent_comments:each></code></pre>
     }
@@ -346,10 +348,10 @@ module CommentTags
     end
     result
   end
-  
+
   desc %{
     Use this to prevent spam bots from filling your site with spam.
-    
+
     *Usage:*
     <pre><code>What day comes after Monday? <r:comments:spam_answer_tag answer="Tuesday" /></code></pre>
   }
@@ -364,10 +366,10 @@ module CommentTags
       r << %{ />}
       r << %{<input type="hidden" name="comment[valid_spam_answer]" value="#{valid_spam_answer}" />}
   end
-  
+
   desc %{
     Show the contents if a comment was just selected
-    
+
     *Usage*
     <pre><code><r:comments:if_selected /></code></pre>
   }
