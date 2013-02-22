@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  
+
   no_login_required
   skip_before_filter :verify_authenticity_token
   before_filter :find_page
@@ -10,36 +10,36 @@ class CommentsController < ApplicationController
     @page.request = request
     render :text => @page.render
   end
-  
+
   def create
     render :text => @page.render and return if request.get?
     comment = @page.comments.build(params[:comment])
     comment.request = request
     comment.request = @page.request = request
     comment.save!
-    
+
     ResponseCache.instance.clear
     if Radiant::Config['comments.notification'] == "true"
       if comment.approved? || Radiant::Config['comments.notify_unapproved'] == "true"
         CommentMailer.deliver_comment_notification(comment)
       end
     end
-    
+
     @page.selected_comment = flash[:selected_comment] = comment.id
   ensure
     render :text => @page.render
   end
-  
+
   private
-  
+
     def find_page
-      url = params[:url]
+      url = params[:url] || ['/']
       url.shift if defined?(SiteLanguage) && SiteLanguage.count > 1
       @page = Page.find_by_url(url.join("/"))
     end
-    
+
     def set_host
       CommentMailer.default_url_options[:host] = request.host_with_port
     end
-  
+
 end
