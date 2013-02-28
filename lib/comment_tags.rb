@@ -212,7 +212,7 @@ module CommentTags
       r << %{ id="#{html_id}" } unless html_id.blank?
       r << %{ class="#{html_class}" } unless html_class.blank?
     r << '>' #close the form element
-    r << %{<input type="hidden" name="comment[occupado]" value="4" />}
+    r << %{<input type="hidden" name="comment[occupado]" value="" />}
     r << %{<input type="hidden" name="comment[miel]" value="" />}
     r <<  tag.expand
     r << %{</form>}

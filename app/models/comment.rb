@@ -16,7 +16,7 @@ class Comment < ActiveRecord::Base
   attr_accessor :valid_spam_answer, :spam_answer
   attr_accessible :author, :author_email, :author_url, :filter_id, :content, :rating, :valid_spam_answer, :spam_answer
 
-  # Honeypot - occupado should be 4; miel should be empty
+  # Honeypot - occupado should be 4 (set by Javascript); miel should be empty
   attr_accessor :occupado, :miel
   attr_accessible :occupado, :miel
 
