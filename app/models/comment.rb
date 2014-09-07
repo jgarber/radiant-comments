@@ -3,7 +3,7 @@ class Comment < ActiveRecord::Base
 
   acts_as_list :scope => 'page_id = #{page_id} AND approved = 1'
 
-  validate :validate_spam_answer
+  validate_on_create :validate_spam_answer
   validates_presence_of :author, :author_email, :content, :page
   MIN_RATING = 0
   MAX_RATING = 5
